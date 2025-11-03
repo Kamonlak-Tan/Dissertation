@@ -1,0 +1,36 @@
+<html>
+<head>
+    <title>Setup Client</title>
+    <meta charset="UTF-8">
+    <script type="text/javascript">
+            function onload() {
+                fetch("/scripts").then((res) => res.json()).then(
+                    (response) => {
+                        if (response.success) {
+                            var list = document.getElementById("list_js");
+                            list.innerHTML = '';
+                            var result = '';
+                            for(var i=0; i<response.files.length; i++) {
+                                result += '<button onclick="setJs(\'' + response.files[i] + '\');">' + response.files[i] + '</button><br/>';
+                            }
+                            list.innerHTML = result;
+                        }
+                    }
+                );
+            }
+            function setJs(name) {
+                localStorage.setItem('client_js', name);
+                document.location="/client"; // TODO Check
+            }
+        </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="setup.css">
+</head>
+
+<body onload="onload();">
+    <div>Choose script to execute by default:</div>
+    <div id='list_js'>Loading...</div>
+</body>
+
+</html>
